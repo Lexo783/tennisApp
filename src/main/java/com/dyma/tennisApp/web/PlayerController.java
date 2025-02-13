@@ -35,7 +35,7 @@ public class PlayerController {
                                     array= @ArraySchema(schema = @Schema(implementation = Player.class))
                             )
                     }
-            )
+            ),
     })
     @GetMapping
     public List<Player> GetPlayers() {
@@ -64,7 +64,9 @@ public class PlayerController {
                                     schema = @Schema(implementation = Error.class)
                             )
                     }
-            )
+            ),
+            @ApiResponse(responseCode = "403", description = "L'utilisateur doit etre connecté")
+
     })
     @GetMapping("{playerName}")
     public Player GetPlayerByName(@PathVariable("playerName") String playerName) {
@@ -81,7 +83,9 @@ public class PlayerController {
                                     schema = @Schema(implementation = Player.class))}),
             @ApiResponse(responseCode = "400", description = "Player with specified last name already exists.",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Error.class))})
+                            schema = @Schema(implementation = Error.class))}),
+            @ApiResponse(responseCode = "403", description = "L'utilisateur doit etre connecté")
+
     })
     @PostMapping
     public Player CreatePlayer(@RequestBody @Valid PlayerToSave player) {
@@ -95,7 +99,9 @@ public class PlayerController {
                             schema = @Schema(implementation = PlayerToSave.class))}),
             @ApiResponse(responseCode = "404", description = "Player with specified last name was not found.",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Error.class))})
+                            schema = @Schema(implementation = Error.class))}),
+            @ApiResponse(responseCode = "403", description = "L'utilisateur doit etre connecté")
+
 
     })
     @PutMapping
@@ -112,7 +118,9 @@ public class PlayerController {
             ),
             @ApiResponse(responseCode = "404", description = "Player with specified last name was not found.",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Error.class))})
+                            schema = @Schema(implementation = Error.class))}),
+            @ApiResponse(responseCode = "403", description = "L'utilisateur doit etre connecté")
+
     })
     @DeleteMapping("{lastName}")
     public void deletePlayerByLastName(@PathVariable("lastName") String lastName) {

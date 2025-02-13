@@ -20,6 +20,10 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
+    public PlayerService(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
+
     public Player mapPlayerEntityToPlayer(PlayerEntity playerEntity) {
         return new Player(
                 playerEntity.getFirstName(),
