@@ -1,45 +1,28 @@
 package com.dyma.tennisApp.service;
-
 import com.dyma.tennisApp.Player;
-import com.dyma.tennisApp.PlayerToSave;
 import com.dyma.tennisApp.Rank;
-
+import com.dyma.tennisApp.data.PlayerEntity;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RankingCalculator {
 
-    private final List<Player> currentPlayersRanking;
-    private final PlayerToSave playerToSave;
+    private final List<PlayerEntity> currentPlayersRanking;
 
-    public RankingCalculator(List<Player> currentPlayersRanking, PlayerToSave playerToSave) {
+    public RankingCalculator(List<PlayerEntity> currentPlayersRanking) {
         this.currentPlayersRanking = currentPlayersRanking;
-        this.playerToSave = playerToSave;
     }
 
-    public List<Player> getNewPlayersRanking() {
-        List<Player> newRankingList = new ArrayList<>(currentPlayersRanking);
-        newRankingList.add(new Player(
-                playerToSave.firstName(),
-                playerToSave.lastName(),
-                playerToSave.birthDate(),
-                new Rank(999999999, playerToSave.points())
-        ));
+    public List<PlayerEntity> getNewPlayersRanking() {
+        currentPlayersRanking.sort((p1, p2) -> Integer.compare(p2.getPoints(), p1.getPoints()));
+        List<PlayerEntity> updatedPlayers = new ArrayList<>();
 
-        newRankingList.sort((player1, player2) -> Integer.compare(player2.rank().points(), player1.rank().points()));
-
-        List<Player> updatedPlayers = new ArrayList<>();
-
-        for (int i = 0; i < newRankingList.size(); i++) {
-            Player player = newRankingList.get(i);
-            Player updatedPlayer = new Player(
-                    player.firstName(),
-                    player.lastName(),
-                    player.birthDate(),
-                    new Rank(i + 1, player.rank().points())
-            );
+        for (int i = 0; i < currentPlayersRanking.size(); ++i) {
+            PlayerEntity updatedPlayer = currentPlayersRanking.get(i);
+            updatedPlayer.setRank(i + 1);
             updatedPlayers.add(updatedPlayer);
         }
+
         return updatedPlayers;
     }
 }

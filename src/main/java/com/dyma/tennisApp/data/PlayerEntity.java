@@ -39,12 +39,17 @@ public class PlayerEntity {
         this.rank = rank;
     }
 
-    public String getLastName() {
-        return lastName;
+    public PlayerEntity(Long id, String lastName, String firstName, LocalDate birthDate, Integer points, Integer rank) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.points = points;
+        this.rank = rank;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getFirstName() {

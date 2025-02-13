@@ -1,6 +1,7 @@
 package com.dyma.tennisApp.web;
 
 import com.dyma.tennisApp.Error;
+import com.dyma.tennisApp.service.PlayerAlreadyExistsException;
 import com.dyma.tennisApp.service.PlayerNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -17,6 +18,12 @@ public class PlayerControllerErrorHandler {
     @ExceptionHandler(PlayerNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Error handlePlayerNotFound(PlayerNotFoundException ex) {
+        return new Error(ex.getMessage());
+    }
+
+    @ExceptionHandler(PlayerAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Error handlePlayerAlreadyExist(PlayerAlreadyExistsException ex) {
         return new Error(ex.getMessage());
     }
 

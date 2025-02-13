@@ -76,17 +76,16 @@ public class PlayerController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Player",
-                    content = {
-                            @Content(
+                    content = { @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Player.class)
-                            )
-                    }
-            )
+                                    schema = @Schema(implementation = Player.class))}),
+            @ApiResponse(responseCode = "400", description = "Player with specified last name already exists.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
     })
     @PostMapping
-    public Player CreatePlayer(@RequestBody @Valid Player player) {
-        return player;
+    public Player CreatePlayer(@RequestBody @Valid PlayerToSave player) {
+        return playerService.create(player);
     }
 
     @Operation(summary = "Updates a player", description = "Updates a player")
@@ -110,11 +109,14 @@ public class PlayerController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Player"
-            )
+            ),
+            @ApiResponse(responseCode = "404", description = "Player with specified last name was not found.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping("{lastName}")
     public void deletePlayerByLastName(@PathVariable("lastName") String lastName) {
-
+        playerService.deletePlayer(lastName);
     }
 
 
